@@ -32,7 +32,9 @@ macro_rules! glsl {
 #[proc_macro_derive(GLSLEmbedImpl, attributes(src, path, ty))]
 pub fn macro_impl(input: TokenStream) -> TokenStream {
     let source = input.to_string();
-    let ast = syn::parse_macro_input(&source).ok().expect("Invalid shader macro arguments - you must specify a single string literal.");
+    let ast = syn::parse_macro_input(&source)
+        .ok()
+        .expect("Invalid shader macro arguments - you must specify a single string literal.");
     let mut source_string = None;
     let mut path_string = None;
     let mut ty_string = None;
@@ -50,9 +52,11 @@ pub fn macro_impl(input: TokenStream) -> TokenStream {
                 }
             }
             syn::MetaItem::List(ref ident, _) if ident == "allow" => {}
-            _ => panic!("Invalid shader macro arguments - you must specify a single string literal.")
+            _ => {
+                panic!("Invalid shader macro arguments - you must specify a single string literal.")
+            }
         }
-    };
+    }
     let source_string = if let Some(source_string) = source_string {
         source_string
     } else {
@@ -72,7 +76,7 @@ pub fn macro_impl(input: TokenStream) -> TokenStream {
         "tcs" => glsl_to_spirv::ShaderType::TessellationControl,
         "tes" => glsl_to_spirv::ShaderType::TessellationEvaluation,
         "cs" => glsl_to_spirv::ShaderType::Compute,
-        _ => panic!()
+        _ => panic!(),
     };
     let mut spirv_file: File = match glsl_to_spirv::compile(&source_string, ty) {
         Ok(compiled) => compiled,

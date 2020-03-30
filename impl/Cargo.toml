@@ -12,6 +12,7 @@ repository = "https://github.com/dylanede/glsl-to-spirv-macros"
 readme = "../README.md"
 license = "MIT / Apache-2.0"
 keywords = ["vulkan", "spirv", "glsl", "shader", "macro"]
+edition = "2018"
 
 [lib]
 proc-macro = true

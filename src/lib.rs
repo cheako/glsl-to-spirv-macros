@@ -6,8 +6,7 @@
 //! Example usage:
 //!
 //! ```ignore
-//! #[macro_use] extern crate glsl_to_spirv_macros;
-//! #[macro_use] extern crate glsl_to_spirv_macros_impl;
+//! use glsl_to_spirv_macros::{glsl_vs, include_glsl_fs};
 //!
 //! static some_shader: &'static [u8] = glsl_vs!{r#"
 //!     // Shader code here
@@ -24,14 +23,16 @@
 //! These macros generate Vulkan-compatible SPIR-V binaries using the official glslang compiler - they
 //! are not designed for use with other APIs, like OpenCL.
 
+pub use glsl_to_spirv_macros_impl::*;
+
 /// Compiles a string containing a GLSL vertex shader into SPIR-V binary data.
 #[macro_export]
 macro_rules! glsl_vs {
     ($source:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[src=$source]
-        #[ty="vs"]
+        #[ty = "vs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -42,9 +43,9 @@ macro_rules! glsl_vs {
 macro_rules! glsl_fs {
     ($source:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[src=$source]
-        #[ty="fs"]
+        #[ty = "fs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -55,9 +56,9 @@ macro_rules! glsl_fs {
 macro_rules! glsl_gs {
     ($source:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[src=$source]
-        #[ty="gs"]
+        #[ty = "gs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -68,9 +69,9 @@ macro_rules! glsl_gs {
 macro_rules! glsl_tcs {
     ($source:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[src=$source]
-        #[ty="tcs"]
+        #[ty = "tcs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -81,9 +82,9 @@ macro_rules! glsl_tcs {
 macro_rules! glsl_tes {
     ($source:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[src=$source]
-        #[ty="tes"]
+        #[ty = "tes"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -94,9 +95,9 @@ macro_rules! glsl_tes {
 macro_rules! glsl_cs {
     ($source:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[src=$source]
-        #[ty="cs"]
+        #[ty = "cs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -107,9 +108,9 @@ macro_rules! glsl_cs {
 macro_rules! include_glsl_vs {
     ($path:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[path=$path]
-        #[ty="vs"]
+        #[ty = "vs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -120,9 +121,9 @@ macro_rules! include_glsl_vs {
 macro_rules! include_glsl_fs {
     ($path:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[path=$path]
-        #[ty="fs"]
+        #[ty = "fs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -133,9 +134,9 @@ macro_rules! include_glsl_fs {
 macro_rules! include_glsl_gs {
     ($path:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[path=$path]
-        #[ty="gs"]
+        #[ty = "gs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -146,9 +147,9 @@ macro_rules! include_glsl_gs {
 macro_rules! include_glsl_tcs {
     ($path:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[path=$path]
-        #[ty="tcs"]
+        #[ty = "tcs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -159,9 +160,9 @@ macro_rules! include_glsl_tcs {
 macro_rules! include_glsl_tes {
     ($path:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[path=$path]
-        #[ty="tes"]
+        #[ty = "tes"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
@@ -172,9 +173,9 @@ macro_rules! include_glsl_tes {
 macro_rules! include_glsl_cs {
     ($path:tt) => {{
         #[allow(dead_code)]
-        #[derive(GLSLEmbedImpl)]
+        #[derive($crate::GLSLEmbedImpl)]
         #[path=$path]
-        #[ty="cs"]
+        #[ty = "cs"]
         struct Dummy;
         &DATA as &'static [u8]
     }};
